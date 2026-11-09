@@ -1,0 +1,22 @@
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: school-admission-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: school_admission
+      POSTGRES_USER: admission_user
+      POSTGRES_PASSWORD: admission_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admission_user -d school_admission"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
